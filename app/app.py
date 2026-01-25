@@ -114,15 +114,15 @@ st.sidebar.markdown("---")
 st.sidebar.markdown("### About")
 st.sidebar.info(
     """
-    This app deploys machine learning models trained on [YOUR DATASET].
+    This app deploys machine learning models trained on Exam_Score_Prediction.
 
-    - **Regression**: Predicts [YOUR TARGET]
+    - **Regression**: Predicts Exam Scores
     - **Classification**: Predicts [YOUR CATEGORIES]
     """
 )
 # TODO: UPDATE YOUR NAME HERE! This shows visitors who built this app.
-st.sidebar.markdown("**Built by:** [YOUR NAME]")
-st.sidebar.markdown("[GitHub Repo](https://github.com/YOUR-USERNAME/YOUR-REPO)")
+st.sidebar.markdown("**Built by:** David Fekke")
+st.sidebar.markdown("[GitHub Repo](https://github.com/davidfekke/individual-capstone-davidfekke)")
 
 
 # =============================================================================
@@ -149,9 +149,9 @@ if page == "🏠 Home":
     st.markdown("### About This Project")
     st.write(
         """
-        **Dataset:** [Describe your dataset]
+        **Dataset:** Exam Scores
 
-        **Problem Statement:** [What are you predicting and why?]
+        **Problem Statement:** Which factors have an affect on exam scores.
 
         **Models Used:**
         - Regression: [Your regression model type]
