@@ -21,8 +21,8 @@ WHAT YOU NEED TO CUSTOMIZE:
     3. Update the model paths if you changed them
     4. Customize the styling if desired
 
-Author: [Your Name]  # <-- UPDATE THIS!
-Dataset: [Your Dataset]  # <-- UPDATE THIS!
+Author: David Fekke  # <-- UPDATE THIS!
+Dataset: Exam Score Prediction # <-- UPDATE THIS!
 """
 
 import streamlit as st
@@ -117,7 +117,7 @@ st.sidebar.info(
     This app deploys machine learning models trained on Exam_Score_Prediction.
 
     - **Regression**: Predicts Exam Scores
-    - **Classification**: Predicts [YOUR CATEGORIES]
+    - **Classification**: Predicts [Passing, Failing]
     """
 )
 # TODO: UPDATE YOUR NAME HERE! This shows visitors who built this app.
@@ -154,8 +154,8 @@ if page == "🏠 Home":
         **Problem Statement:** Which factors have an affect on exam scores.
 
         **Models Used:**
-        - Regression: [Your regression model type]
-        - Classification: [Your classification model type]
+        - Regression: Linear Regression
+        - Classification: Logistic Regression
         """
     )
 
