@@ -122,7 +122,7 @@ st.sidebar.info(
 )
 # TODO: UPDATE YOUR NAME HERE! This shows visitors who built this app.
 st.sidebar.markdown("**Built by:** David Fekke")
-st.sidebar.markdown("[GitHub Repo](https://github.com/davidfekke/individual-capstone-davidfekke)")
+st.sidebar.markdown("[GitHub Repo](https://github.com/davidfekke/individual-capstone-davidfekke/tree/checkpoint5)")
 
 
 # =============================================================================
