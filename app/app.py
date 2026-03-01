@@ -25,11 +25,22 @@ Author: [Your Name]  # <-- UPDATE THIS!
 Dataset: [Your Dataset]  # <-- UPDATE THIS!
 """
 
+from cProfile import label
+
 import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
 from pathlib import Path
+
+feature_controls = { 
+    'study_hours': { 'label': 'Study Hours', 'min': 4, 'max': 10, 'control': 'slider' }, 
+    'class_attendance': { 'label': 'Class Attendance', 'min': 40, 'max': 100, 'control': 'slider' }, 
+    'sleep_quality': { 'label': 'Sleep Quality', 'min': 0, 'max': 2, 'control': 'slider' }, 
+    'study_method_coaching': { 'label': 'Study Method', 'min': 0, 'max': 1, 'control': 'slider' }, 
+    'facility_rating': { 'label': 'Facility Rating', 'min': 0, 'max': 2, 'control': 'slider' }, 
+    'sleep_hours': { 'label': 'Sleep Hours', 'min': 0, 'max': 10, 'control': 'slider' } 
+}
 
 # =============================================================================
 # PAGE CONFIGURATION
@@ -117,7 +128,7 @@ st.sidebar.info(
     This app deploys machine learning models trained on Exam_Score_Prediction.
 
     - **Regression**: Predicts Exam Scores
-    - **Classification**: Predicts [YOUR CATEGORIES]
+    - **Classification**: Predicts ['Failure', 'Passing']
     """
 )
 # TODO: UPDATE YOUR NAME HERE! This shows visitors who built this app.
@@ -154,8 +165,8 @@ if page == "🏠 Home":
         **Problem Statement:** Which factors have an affect on exam scores.
 
         **Models Used:**
-        - Regression: [Your regression model type]
-        - Classification: [Your classification model type]
+        - Regression: Linear Regression
+        - Classification: Logistic Regression
         """
     )
 
@@ -182,30 +193,47 @@ elif page == "📈 Regression Model":
     st.markdown("---")
     st.markdown("### Enter Feature Values")
 
+    
     # Create input fields for each feature
     # TODO: CUSTOMIZE THIS SECTION FOR YOUR FEATURES!
     # The example below creates number inputs, but you may need:
     # - st.selectbox() for categorical features
     # - st.slider() for bounded numerical features
     # - Different default values and ranges
+    
+    # study_hours: min=0.08, max=7.91, range=7.83
+    # class_attendance: min=40.6, max=99.4, range=58.800000000000004
+    # sleep_hours: min=4.1, max=9.9, range=5.800000000000001
+    # sleep_quality: min=0, max=2, range=2
+    # facility_rating: min=0, max=2, range=2
+    # exam_difficulty: min=0, max=2, range=2
 
     # Create columns for better layout
     col1, col2 = st.columns(2)
 
     input_values = {}
 
-    for i, feature in enumerate(features):
+    for i, feature in enumerate(feature_controls):
         # Alternate between columns
         with col1 if i % 2 == 0 else col2:
             # TODO: Customize each input based on your feature type and range
             # Example: For a feature like 'bedrooms' you might use:
             # input_values[feature] = st.number_input(feature, min_value=0, max_value=10, value=3)
 
-            input_values[feature] = st.number_input(
-                label=feature,
-                value=0.0,  # Default value - UPDATE THIS
-                help=f"Enter value for {feature}"
-            )
+            if feature_controls[feature]['control'] == 'slider':
+                input_values[feature] = st.slider(
+                    label=feature_controls[feature]['label'],
+                    min_value=int(feature_controls[feature]['min']),
+                    max_value=int(feature_controls[feature]['max']),
+                    value=int((feature_controls[feature]['min'] + feature_controls[feature]['max']) / 2),  # Default value in the middle of the range
+                    help=f"Enter value for {feature_controls[feature]['label']}"
+                )
+            else:
+                input_values[feature] = st.number_input(
+                    label=feature_controls[feature]['label'],
+                    value=0.0,  # Default value - UPDATE THIS
+                    help=f"Enter value for {feature_controls[feature]['label']}"
+                )
 
     st.markdown("---")
 
@@ -275,12 +303,22 @@ elif page == "🏷️ Classification Model":
     for i, feature in enumerate(features):
         with col1 if i % 2 == 0 else col2:
             # TODO: Customize each input based on your feature type and range
-            input_values[feature] = st.number_input(
-                label=feature,
-                value=0.0,
-                key=f"class_{feature}",  # Unique key for classification inputs
-                help=f"Enter value for {feature}"
-            )
+            
+            if feature_controls[feature]['control'] == 'slider':
+                input_values[feature] = st.slider(
+                    label=feature_controls[feature]['label'],
+                    min_value=int(feature_controls[feature]['min']),
+                    max_value=int(feature_controls[feature]['max']),
+                    value=int((feature_controls[feature]['min'] + feature_controls[feature]['max']) / 2),  # Default value in the middle of the range
+                    help=f"Enter value for {feature_controls[feature]['label']}"
+                )
+            else:
+                input_values[feature] = st.number_input(
+                    label=feature_controls[feature]['label'],
+                    value=0.0,  # Default value - UPDATE THIS
+                    help=f"Enter value for {feature_controls[feature]['label']}"
+                )
+
 
     st.markdown("---")
 
@@ -295,16 +333,15 @@ elif page == "🏷️ Classification Model":
         # Display result with color coding
         # TODO: Customize colors based on your categories
         color_map = {
-            'Low': '🔴',
-            'Medium': '🟡',
-            'High': '🟢'
+            'Failing': '🔴',
+            'Passing': '🟢'
         }
         emoji = color_map.get(predicted_label, '🔵')
 
         st.success(f"### Predicted Category: {emoji} {predicted_label}")
 
         # TODO: Add interpretation
-        # st.write(f"This means... [interpretation]")
+        st.write(f"This means... [interpretation]")
 
         # Show input summary
         with st.expander("View Input Summary"):
@@ -318,7 +355,7 @@ st.markdown("---")
 st.markdown(
     """
     <div style='text-align: center; color: gray;'>
-        Built by [YOUR NAME] | Full Stack Academy AI & ML Bootcamp
+        Built by David Fekke | Full Stack Academy AI & ML Bootcamp
     </div>
     """,
     unsafe_allow_html=True
