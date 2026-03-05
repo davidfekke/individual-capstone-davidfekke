@@ -338,7 +338,10 @@ elif page == "🏷️ Classification Model":
         }
         emoji = color_map.get(predicted_label, '🔵')
 
-        st.success(f"### Predicted Category: {emoji} {predicted_label}")
+        if predicted_label == 'Failing':
+            st.error(f"### Predicted Category: {emoji} {predicted_label}")
+        elif predicted_label == 'Passing':
+            st.success(f"### Predicted Category: {emoji} {predicted_label}")
 
         # TODO: Add interpretation
         st.write(f"This means... [interpretation]")
